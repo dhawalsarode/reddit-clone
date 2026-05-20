@@ -1,13 +1,30 @@
-import { useState } from 'react'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Community from "./pages/Community";
+import PostDetails from "./pages/PostDetails";
 
 function App() {
   return (
-    <div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center">
-      <h1 className="text-4xl font-bold">
-        Reddit Clone
-      </h1>
-    </div>
+    <BrowserRouter>
+      <div className="min-h-screen bg-zinc-950 text-white">
+        <Navbar />
+
+        <div className="p-6">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/r/:communityName" element={<Community />} />
+            <Route path="/post/:postId" element={<PostDetails />} />
+          </Routes>
+        </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
