@@ -7,6 +7,7 @@ const authRoutes = require("./routes/authRoutes");
 const communityRoutes = require("./routes/communityRoutes");
 const postRoutes = require("./routes/postRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const voteRoutes = require("./routes/voteRoutes");
 
 const app = express();
 
@@ -26,5 +27,7 @@ app.use("/api/communities", communityRoutes);
 app.use("/api/posts", postRoutes);
 
 app.use("/api/comments", commentRoutes);
+
+app.use("/api/votes", voteRoutes);
 
 module.exports = app;
