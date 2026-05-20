@@ -5,6 +5,7 @@ const prisma = require("./config/prisma");
 
 const authRoutes = require("./routes/authRoutes");
 const communityRoutes = require("./routes/communityRoutes");
+const postRoutes = require("./routes/postRoutes");
 
 const app = express();
 
@@ -20,5 +21,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 
 app.use("/api/communities", communityRoutes);
+
+app.use("/api/posts", postRoutes);
 
 module.exports = app;
