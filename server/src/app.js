@@ -1,17 +1,15 @@
 const express = require("express");
 const cors = require("cors");
-
+const prisma = require("./config/prisma");
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ message: "Backend running" });
+  res.json({
+    message: "API running successfully",
+  });
 });
 
-const PORT = 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+module.exports = app;
