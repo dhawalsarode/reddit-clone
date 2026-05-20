@@ -106,7 +106,33 @@ const login = async (req, res) => {
   }
 };
 
+const getCurrentUser = async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.user.userId,
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        createdAt: true,
+      },
+    });
+
+    res.status(200).json(user);
+
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
 module.exports = {
   signup,
   login,
+  getCurrentUser,
 };
