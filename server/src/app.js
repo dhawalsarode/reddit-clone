@@ -1,6 +1,10 @@
 const express = require("express");
 const cors = require("cors");
+
 const prisma = require("./config/prisma");
+
+const authRoutes = require("./routes/authRoutes");
+
 const app = express();
 
 app.use(cors());
@@ -11,5 +15,7 @@ app.get("/", (req, res) => {
     message: "API running successfully",
   });
 });
+
+app.use("/api/auth", authRoutes);
 
 module.exports = app;
