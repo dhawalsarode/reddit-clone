@@ -19,6 +19,9 @@ function Home() {
   const [loading, setLoading] =
     useState(true);
 
+  const [sort, setSort] =
+    useState("latest");
+
   useEffect(() => {
 
     const fetchPosts = async () => {
@@ -26,7 +29,7 @@ function Home() {
       try {
 
         const response =
-          await getAllPosts();
+          await getAllPosts(sort);
 
         setPosts(response.data);
 
@@ -42,7 +45,7 @@ function Home() {
 
     fetchPosts();
 
-  }, []);
+  }, [sort]);
 
   if (loading) {
     return (
@@ -55,9 +58,31 @@ function Home() {
   return (
     <MainLayout>
 
-      <h1 className="text-3xl font-bold mb-6">
+      <div className="flex items-center justify-between mb-6">
+
+      <h1 className="text-3xl font-bold">
         Home Feed
       </h1>
+
+      <select
+        value={sort}
+        onChange={(e) =>
+          setSort(e.target.value)
+        }
+        className="bg-zinc-900 border border-zinc-700 px-4 py-2 rounded-lg"
+      >
+
+        <option value="latest">
+          Latest
+        </option>
+
+        <option value="top">
+          Top
+        </option>
+
+      </select>
+
+    </div>
 
       {
         posts.length === 0

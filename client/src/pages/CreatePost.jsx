@@ -28,6 +28,12 @@ function CreatePost() {
   const [content, setContent] =
     useState("");
 
+  const [imageUrl, setImageUrl] =
+    useState("");
+
+  const [videoUrl, setVideoUrl] =
+    useState("");
+
   const [
     communityId,
     setCommunityId,
@@ -72,6 +78,8 @@ function CreatePost() {
         await createPost({
           title,
           content,
+          imageUrl,
+          videoUrl,
           communityId,
         });
 
@@ -118,6 +126,26 @@ function CreatePost() {
             }
             className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-4 h-40"
             required
+          />
+
+          <input
+            type="text"
+            placeholder="Image URL (optional)"
+            value={imageUrl}
+            onChange={(e) =>
+              setImageUrl(e.target.value)
+            }
+            className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-4"
+          />
+
+          <input
+            type="text"
+            placeholder="Video URL (.mp4) (optional)"
+            value={videoUrl}
+            onChange={(e) =>
+              setVideoUrl(e.target.value)
+            }
+            className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-4"
           />
 
           <select

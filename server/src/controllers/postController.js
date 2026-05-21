@@ -4,11 +4,13 @@ const createPost = async (req, res) => {
 
   try {
 
-    const {
-      title,
-      content,
-      communityId,
-    } = req.body;
+      const {
+        title,
+        content,
+        imageUrl,
+        videoUrl,
+        communityId,
+      } = req.body;
 
     const post =
       await prisma.post.create({
@@ -17,6 +19,8 @@ const createPost = async (req, res) => {
           title,
           content,
           communityId,
+          imageUrl,
+          videoUrl,
 
           authorId:
             req.user.userId,
@@ -50,7 +54,7 @@ const createPost = async (req, res) => {
 const getAllPosts = async (req, res) => {
 
   try {
-
+    const { sort } = req.query;
     const posts =
       await prisma.post.findMany({
 
@@ -73,33 +77,44 @@ const getAllPosts = async (req, res) => {
             },
           },
         },
-
-        orderBy: {
-          createdAt: "desc",
-        },
       });
 
-    const formattedPosts =
-      posts.map((post) => {
+      const formattedPosts =
+        posts.map((post) => {
 
-        const voteScore =
-          post.votes.reduce(
-            (sum, vote) =>
-              sum + vote.value,
-            0
-          );
+          const voteScore =
+            post.votes.reduce(
+              (sum, vote) =>
+                sum + vote.value,
+              0
+            );
 
-        return {
-          ...post,
-          voteScore,
-        };
-      });
+          return {
+            ...post,
+            voteScore,
+          };
+        });
 
-    res.status(200).json(
-      formattedPosts
-    );
+      if (sort === "top") {
 
-  } catch (error) {
+        formattedPosts.sort(
+          (a, b) =>
+            b.voteScore - a.voteScore
+        );
+
+      } else {
+
+        formattedPosts.sort(
+          (a, b) =>
+            new Date(b.createdAt) -
+            new Date(a.createdAt)
+        );
+      }
+
+      res.status(200).json(
+        formattedPosts
+      );
+        } catch (error) {
 
     console.log(error);
 

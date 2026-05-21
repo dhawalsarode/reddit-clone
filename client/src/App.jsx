@@ -8,6 +8,8 @@ import Signup from "./pages/Signup";
 import Community from "./pages/Community";
 import CreatePost from "./pages/CreatePost";  
 import SinglePost from "./pages/SinglePost";
+import Communities from "./pages/Communities";
+import CreateCommunity from "./pages/CreateCommunity";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
             <Route path="/r/:communityName" element={<Community />} />
             <Route path="/create-post" element={<CreatePost />}/>
             <Route path="/post/:id" element={<SinglePost />}/>
+            <Route path="/communities" element={<Communities />}/>
+            <Route path="/create-community" element={<CreateCommunity />}/>
           </Routes>
         </div>
       </div>

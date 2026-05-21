@@ -37,6 +37,12 @@ function Navbar() {
           >
             Home
           </Link>
+          <Link
+            to="/communities"
+            className="hover:text-orange-400 transition"
+          >
+            Communities
+          </Link>
 
           {
             user ? (

@@ -1,7 +1,11 @@
 import API from "./axios";
 
-export const getAllPosts = () =>
-  API.get("/posts");
+export const getAllPosts = (
+  sort = "latest"
+) =>
+  API.get(
+    `/posts?sort=${sort}`
+  );
 
 export const getSinglePost = (id) =>
   API.get(`/posts/${id}`);

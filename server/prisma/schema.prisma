@@ -36,6 +36,9 @@ model Post {
   title         String
   content       String?
 
+  imageUrl      String?
+  videoUrl      String?
+
   authorId      String
   communityId   String
 
