@@ -5,7 +5,8 @@ const {
   getCommentsByPost,
 } = require("../controllers/commentController");
 
-const authMiddleware = require("../middleware/authMiddleware");
+const authMiddleware =
+  require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.post(
 );
 
 router.get(
-  "/post/:postId",
+  "/:postId",
   getCommentsByPost
 );
 

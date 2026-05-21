@@ -6,8 +6,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Community from "./pages/Community";
-import PostDetails from "./pages/PostDetails";
 import CreatePost from "./pages/CreatePost";  
+import SinglePost from "./pages/SinglePost";
 
 function App() {
   return (
@@ -21,8 +21,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/r/:communityName" element={<Community />} />
-            <Route path="/post/:postId" element={<PostDetails />} />
             <Route path="/create-post" element={<CreatePost />}/>
+            <Route path="/post/:id" element={<SinglePost />}/>
           </Routes>
         </div>
       </div>
