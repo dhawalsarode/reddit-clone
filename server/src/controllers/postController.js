@@ -48,34 +48,59 @@ const createPost = async (req, res) => {
 };
 
 const getAllPosts = async (req, res) => {
+
   try {
-    const posts = await prisma.post.findMany({
-      include: {
-        author: {
-          select: {
-            id: true,
-            username: true,
+
+    const posts =
+      await prisma.post.findMany({
+
+        include: {
+
+          author: {
+            select: {
+              id: true,
+              username: true,
+            },
+          },
+
+          community: true,
+
+          votes: true,
+
+          _count: {
+            select: {
+              comments: true,
+            },
           },
         },
 
-        community: true,
-
-        _count: {
-          select: {
-            comments: true,
-            votes: true,
-          },
+        orderBy: {
+          createdAt: "desc",
         },
-      },
+      });
 
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    const formattedPosts =
+      posts.map((post) => {
 
-    res.status(200).json(posts);
+        const voteScore =
+          post.votes.reduce(
+            (sum, vote) =>
+              sum + vote.value,
+            0
+          );
+
+        return {
+          ...post,
+          voteScore,
+        };
+      });
+
+    res.status(200).json(
+      formattedPosts
+    );
 
   } catch (error) {
+
     console.log(error);
 
     res.status(500).json({
@@ -85,56 +110,81 @@ const getAllPosts = async (req, res) => {
 };
 
 const getSinglePost = async (req, res) => {
+
   try {
+
     const { id } = req.params;
 
-    const post = await prisma.post.findUnique({
-      where: {
-        id,
-      },
+    const post =
+      await prisma.post.findUnique({
 
-      include: {
-        author: {
-          select: {
-            id: true,
-            username: true,
-          },
+        where: {
+          id,
         },
 
-        community: true,
+        include: {
 
-        comments: {
-          include: {
-            author: {
-              select: {
-                id: true,
-                username: true,
-              },
+          author: {
+            select: {
+              id: true,
+              username: true,
             },
           },
 
-          orderBy: {
-            createdAt: "desc",
-          },
-        },
+          community: true,
 
-        _count: {
-          select: {
-            votes: true,
+          votes: true,
+
+          comments: {
+
+            include: {
+
+              author: {
+                select: {
+                  id: true,
+                  username: true,
+                },
+              },
+            },
+
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
+
+          _count: {
+            select: {
+              comments: true,
+            },
           },
         },
-      },
-    });
+      });
 
     if (!post) {
+
       return res.status(404).json({
         message: "Post not found",
       });
     }
 
-    res.status(200).json(post);
+    const voteScore =
+      post.votes.reduce(
+        (sum, vote) =>
+          sum + vote.value,
+        0
+      );
+
+    const formattedPost = {
+      ...post,
+      voteScore,
+    };
+
+    res.status(200).json(
+      formattedPost
+    );
 
   } catch (error) {
+
     console.log(error);
 
     res.status(500).json({
@@ -144,53 +194,81 @@ const getSinglePost = async (req, res) => {
 };
 
 const getPostsByCommunity = async (req, res) => {
+
   try {
+
     const { name } = req.params;
 
     const community =
       await prisma.community.findUnique({
+
         where: {
           name,
         },
       });
 
     if (!community) {
+
       return res.status(404).json({
         message: "Community not found",
       });
     }
 
-    const posts = await prisma.post.findMany({
-      where: {
-        communityId: community.id,
-      },
+    const posts =
+      await prisma.post.findMany({
 
-      include: {
-        author: {
-          select: {
-            id: true,
-            username: true,
+        where: {
+          communityId:
+            community.id,
+        },
+
+        include: {
+
+          author: {
+            select: {
+              id: true,
+              username: true,
+            },
+          },
+
+          community: true,
+
+          votes: true,
+
+          _count: {
+            select: {
+              comments: true,
+            },
           },
         },
 
-        community: true,
-
-        _count: {
-          select: {
-            comments: true,
-            votes: true,
-          },
+        orderBy: {
+          createdAt: "desc",
         },
-      },
+      });
 
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    const formattedPosts =
+      posts.map((post) => {
 
-    res.status(200).json(posts);
+        const voteScore =
+          post.votes.reduce(
+            (sum, vote) =>
+              sum + vote.value,
+            0
+          );
+
+        return {
+          ...post,
+          voteScore,
+        };
+      });
+
+    res.status(200).json(
+      formattedPosts
+    );
 
   } catch (error) {
+
     console.log(error);
 
     res.status(500).json({
