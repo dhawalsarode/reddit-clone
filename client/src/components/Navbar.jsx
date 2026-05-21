@@ -45,6 +45,13 @@ function Navbar() {
                   u/{user.username}
                 </span>
 
+                <Link
+                  to="/create-post"
+                  className="bg-orange-500 hover:bg-orange-600 transition px-4 py-2 rounded-lg"
+                >
+                  Create Post
+                </Link>
+
                 <button
                   onClick={logout}
                   className="bg-red-500 hover:bg-red-600 transition px-4 py-2 rounded-lg"
@@ -74,6 +81,7 @@ function Navbar() {
         </div>
 
       </div>
+
     </nav>
   );
 }

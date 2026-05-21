@@ -8,3 +8,6 @@ export const getSinglePost = (id) =>
 
 export const getPostsByCommunity = (name) =>
   API.get(`/posts/community/${name}`);
+
+export const createPost = (data) =>
+  API.post("/posts", data);

@@ -1,51 +1,44 @@
 const prisma = require("../config/prisma");
 
 const createPost = async (req, res) => {
+
   try {
+
     const {
       title,
       content,
-      communityName,
+      communityId,
     } = req.body;
 
-    const community =
-      await prisma.community.findUnique({
-        where: {
-          name: communityName,
+    const post =
+      await prisma.post.create({
+
+        data: {
+          title,
+          content,
+          communityId,
+
+          authorId:
+            req.user.userId,
         },
-      });
 
-    if (!community) {
-      return res.status(404).json({
-        message: "Community not found",
-      });
-    }
+        include: {
 
-    const post = await prisma.post.create({
-      data: {
-        title,
-        content,
-
-        authorId: req.user.userId,
-
-        communityId: community.id,
-      },
-
-      include: {
-        author: {
-          select: {
-            id: true,
-            username: true,
+          author: {
+            select: {
+              id: true,
+              username: true,
+            },
           },
-        },
 
-        community: true,
-      },
-    });
+          community: true,
+        },
+      });
 
     res.status(201).json(post);
 
   } catch (error) {
+
     console.log(error);
 
     res.status(500).json({
