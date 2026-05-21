@@ -4,6 +4,8 @@ import {
   useState,
 } from "react";
 
+import { getCurrentUser } from "../api/authApi";
+
 export const AuthContext =
   createContext();
 
@@ -30,10 +32,40 @@ function AuthProvider({ children }) {
 
   }, [token]);
 
-  const logout = () => {
-    setUser(null);
-    setToken(null);
+  useEffect(() => {
+
+  const fetchUser = async () => {
+
+    if (!token) return;
+
+    try {
+
+      const response =
+        await getCurrentUser();
+
+      setUser(response.data);
+
+    } catch (error) {
+
+      console.log(error);
+
+      logout();
+    }
   };
+
+  fetchUser();
+
+}, [token]);
+
+
+  const logout = () => {
+
+  localStorage.removeItem("token");
+
+  setUser(null);
+
+  setToken(null);
+};
 
   return (
     <AuthContext.Provider
